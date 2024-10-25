@@ -5,8 +5,19 @@ import { assets } from "../Assets/images";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 function NavBar() {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <>
       <div className="navigation flex items-center justify-between w-full py-4">
@@ -37,15 +48,7 @@ function NavBar() {
                   className="text-md text-blue-950 font-bold hover:ease-in-out duration-500 hover:text-black"
                   to="/category"
                 >
-                  Category
-                </Link>
-              </Nav.Link>
-              <Nav.Link>
-                <Link
-                  className="text-md text-blue-950 font-bold hover:ease-in-out duration-500 hover:text-black"
-                  to="/about"
-                >
-                  About
+                  Product
                 </Link>
               </Nav.Link>
               <Nav.Link>
@@ -81,13 +84,36 @@ function NavBar() {
         </div>
 
         <div className="lg:flex items-center justify-center gap-3 min-[320px]:hidden">
-          <div>
-            <FontAwesomeIcon className="text-yellow-950 hover:text-black duration-500 cursor-pointer hover:scale-105" icon={faCartShopping} />
-          </div>
+          <Button
+            onClick={handleClick}
+          >
+             <FontAwesomeIcon className="text-yellow-950 text-lg hover:text-black duration-500 cursor-pointer hover:scale-105" icon={faCartShopping} />
+          </Button>
+          <Menu
+            id="demo-positioned-menu"
+            aria-labelledby="demo-positioned-button"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+          >
+            <MenuItem onClick={handleClose}>
+            <div>
+              Your cart is empty
+            </div>
+            </MenuItem>
+          </Menu>
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default NavBar
+export default NavBar;

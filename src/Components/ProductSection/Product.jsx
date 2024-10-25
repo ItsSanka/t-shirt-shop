@@ -182,7 +182,7 @@ function Product() {
                   ))
                 ) : (
                   <h3 className="text-center text-2xl text-red-600">
-                    No products match the selected filters
+                    No products match the selected size
                   </h3>
                 )}
               </div>
