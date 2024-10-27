@@ -70,7 +70,7 @@ function NavBar() {
               <Nav.Link>
                 <Link
                   className="text-md text-blue-950 font-bold hover:ease-in-out duration-500 hover:text-black"
-                  to="/category"
+                  to="/ProductPage"
                 >
                   Product
                 </Link>
