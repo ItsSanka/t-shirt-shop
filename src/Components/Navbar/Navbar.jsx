@@ -5,11 +5,12 @@ import Navbar from "react-bootstrap/Navbar";
 import { assets } from "../Assets/images";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Badge from "@mui/material/Badge";
+import { Table } from "react-bootstrap";
 
 function NavBar() {
   const { cart } = useSelector((state) => state.updateCart);
@@ -112,14 +113,56 @@ function NavBar() {
             }}
           >
             <MenuItem onClick={handleClose}>
-            {
-              cart.length === 0? 
-              <div>Your cart is empty</div>:
-              <div>
-                user cart
-              </div>
-            }
-              
+              {cart.length === 0 ? (
+                <div>Your cart is empty</div>
+              ) : (
+                <div className="">
+                  <div>
+                    <Table className="striped bordered hover">
+                      <thead>
+                        <tr>
+                          <td>Image</td>
+                          <td>Details</td>
+                        </tr>
+                      </thead>
+                      {cart.map((product) => {
+                        return (
+                          <tbody>
+                            <tr>
+                              <td>
+                                <img
+                                  className="w-[5rem] h-[5rem]"
+                                  src={product.details.image}
+                                  alt={product.name}
+                                />
+                              </td>
+                              <td>
+                                <p>{product.name}</p>
+                                <p>Price: $ {product.details.price}</p>
+                                <p>No of products</p>
+                                <div className="flex justify-between w-50">
+                                  <p>-</p>
+                                  <p>{cart.length}</p>
+                                  <p>+</p>
+                                </div>
+                              </td>
+                              <td>
+                              <FontAwesomeIcon className="text-red-600" icon={faTrash} />
+                              </td>
+                            </tr>
+                          </tbody>
+                        );
+                      })}
+
+                      <tfoot>
+                        <tr>
+                          <div>Total</div>
+                        </tr>
+                      </tfoot>
+                    </Table>
+                  </div>
+                </div>
+              )}
             </MenuItem>
           </Menu>
         </div>
