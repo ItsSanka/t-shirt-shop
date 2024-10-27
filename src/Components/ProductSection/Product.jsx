@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector,useDispatch } from "react-redux";
-import add from "../../actions/action";
+import {add} from "../../actions/action";
 import { assets } from "../Assets/images";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";

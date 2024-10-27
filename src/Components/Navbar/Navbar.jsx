@@ -1,5 +1,5 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { assets } from "../Assets/images";
@@ -12,8 +12,26 @@ import MenuItem from "@mui/material/MenuItem";
 import Badge from "@mui/material/Badge";
 import { Table } from "react-bootstrap";
 
+import { add, removeOne, remove } from "../../actions/action";
+
 function NavBar() {
+  const dispatch = useDispatch();
+  const [total, setTotal] = useState(0);
+
   const { cart } = useSelector((state) => state.updateCart);
+
+  const getTotal = () => {
+    let price = 0;
+    cart.map(
+      (product) =>
+        (price = product.details.price * product.rating.count + price)
+    );
+    setTotal(price);
+  };
+
+  useEffect(() => {
+    getTotal()
+  });
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -23,6 +41,7 @@ function NavBar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <>
       <div className="navigation flex items-center justify-between w-full py-4">
@@ -112,11 +131,11 @@ function NavBar() {
               horizontal: "left",
             }}
           >
-            <MenuItem onClick={handleClose}>
+            <MenuItem>
               {cart.length === 0 ? (
                 <div>Your cart is empty</div>
               ) : (
-                <div className="">
+                <div className="w-[40rem]">
                   <div>
                     <Table className="striped bordered hover">
                       <thead>
@@ -136,18 +155,37 @@ function NavBar() {
                                   alt={product.name}
                                 />
                               </td>
-                              <td>
+                              <td className="text-sm">
                                 <p>{product.name}</p>
                                 <p>Price: $ {product.details.price}</p>
                                 <p>No of products</p>
-                                <div className="flex justify-between w-50">
-                                  <p>-</p>
-                                  <p>{cart.length}</p>
-                                  <p>+</p>
+                                <div className="flex justify-between w-28 items-center">
+                                  <p
+                                    className="text-3xl cursor-pointer"
+                                    onClick={
+                                      product.rating.count === 1
+                                        ? () => dispatch(remove(product))
+                                        : () => dispatch(removeOne(product))
+                                    }
+                                  >
+                                    -
+                                  </p>
+                                  <p>{product.rating.count}</p>
+                                  <p
+                                    className="text-xl cursor-pointer"
+                                    onClick={() => dispatch(add(product))}
+                                  >
+                                    +
+                                  </p>
                                 </div>
                               </td>
                               <td>
-                              <FontAwesomeIcon className="text-red-600" icon={faTrash} />
+                                <FontAwesomeIcon
+                                  title="Remove"
+                                  onClick={() => dispatch(remove(product))}
+                                  className="text-red-600 cursor-pointer"
+                                  icon={faTrash}
+                                />
                               </td>
                             </tr>
                           </tbody>
@@ -156,7 +194,7 @@ function NavBar() {
 
                       <tfoot>
                         <tr>
-                          <div>Total</div>
+                          <div>Total: $ {total.toFixed(2)}</div>
                         </tr>
                       </tfoot>
                     </Table>

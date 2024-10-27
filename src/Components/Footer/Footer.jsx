@@ -42,10 +42,7 @@ function Footer() {
               <Link to="/">Home</Link>
             </li>
             <li className="!font-black text-md">
-              <Link to="/category">Category</Link>
-            </li>
-            <li className="!font-black text-md">
-              <Link to="/about">About</Link>
+              <Link to="/category">Product</Link>
             </li>
             <li className="!font-black text-md">
               <Link to="/contact">Contact</Link>

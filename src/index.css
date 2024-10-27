@@ -14,3 +14,8 @@ a{
 .footer a{
   color: black !important;
 }
+
+.MuiButtonBase-root{
+  cursor: auto !important;
+  background-color: transparent !important;
+}
