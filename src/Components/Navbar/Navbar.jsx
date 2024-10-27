@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { assets } from "../Assets/images";
@@ -8,8 +9,11 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Badge from "@mui/material/Badge";
 
 function NavBar() {
+  const { cart } = useSelector((state) => state.updateCart);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -73,7 +77,7 @@ function NavBar() {
           </form>
         </div>
 
-        <div className="xl:block lg:hidden md:block sm:block min-[320px]:hidden">
+        <div className="xl:block lg:hidden min-[320px]:hidden">
           <button
             type="button"
             href="#"
@@ -83,11 +87,14 @@ function NavBar() {
           </button>
         </div>
 
-        <div className="lg:flex items-center justify-center gap-3 min-[320px]:hidden">
-          <Button
-            onClick={handleClick}
-          >
-             <FontAwesomeIcon className="text-yellow-950 text-lg hover:text-black duration-500 cursor-pointer hover:scale-105" icon={faCartShopping} />
+        <div className="lg:flex items-center justify-center gap-3">
+          <Button onClick={handleClick}>
+            <Badge badgeContent={cart.length} color="primary">
+              <FontAwesomeIcon
+                className="text-yellow-950 text-lg hover:text-black duration-500 cursor-pointer hover:scale-105"
+                icon={faCartShopping}
+              />
+            </Badge>
           </Button>
           <Menu
             id="demo-positioned-menu"
@@ -105,9 +112,14 @@ function NavBar() {
             }}
           >
             <MenuItem onClick={handleClose}>
-            <div>
-              Your cart is empty
-            </div>
+            {
+              cart.length === 0? 
+              <div>Your cart is empty</div>:
+              <div>
+                user cart
+              </div>
+            }
+              
             </MenuItem>
           </Menu>
         </div>

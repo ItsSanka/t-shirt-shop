@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { useSelector,useDispatch } from "react-redux";
+import add from "../../actions/action";
 import { assets } from "../Assets/images";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 
 function Product() {
+
+  const cart = useSelector(state => state.updateCart)
+  const dispatch = useDispatch()
+  console.log(cart);
+  
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sizeFilter, setSizeFilter] = useState("");
@@ -19,12 +27,12 @@ function Product() {
         setProducts(data.shipments);
         setLoading(false);
       } catch (error) {
-        console.error(error);
+        console.error(error); 
         setLoading(false);
       }
     };
     fetchProductData();
-  }, []);
+  }, []); 
 
   const filteredProducts = products.filter((product) => {
     const isSizeMatch = sizeFilter ? product.details.size === sizeFilter : true;
@@ -33,6 +41,10 @@ function Product() {
       product.details.price <= priceFilter[1];
     return isSizeMatch && isPriceMatch;
   });
+
+  const send =(product)=>{
+    dispatch(add(product))
+  }
 
   return (
     <>
@@ -170,6 +182,7 @@ function Product() {
                         </h4>
                       </div>
                       <button
+                        onClick={()=>send(product)}
                         title="Add to cart"
                         className="absolute z-10 right-6 top-5 border bg-orange-100 w-10 h-10 rounded-full flex justify-center items-center"
                       >
